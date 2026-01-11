@@ -2,6 +2,8 @@ import { SearchOutlined, HomeOutlined, HeartOutlined, UserOutlined } from '@ant-
 import { Button, Layout } from 'antd';
 import styled from "styled-components";
 import { Link } from 'react-router-dom';
+import { useAuth } from '../context/AuthContext';
+import Item from 'antd/es/list/Item';
 const {  Sider } = Layout;
 
 const StyleSider = styled(Sider) `
@@ -26,37 +28,42 @@ const CenteredButton = styled(Button)`
   margin-bottom: 10px;
 `;
 
+// eslint-disable-next-line react-refresh/only-export-components
+export const menuConfig = {
+  ROLE_CLIENT: [
+    { label: "Главная", path: "/main", icon: <HomeOutlined />, },
+    { label: "Поиск", path: "/main/search", icon: <SearchOutlined />, },
+    { label: "Профиль", path: "/profile", icon: <UserOutlined />, }
+  ],
+  ROLE_ADMIN: [
+    { label: "Админка", path: "/admin" },
+    { label: "Пользователи", path: "/admin/users" }
+  ]
+};
+
 
 export default function AppSider(){
+
+    const {user} = useAuth();
+
+    if(!user) return null;
+
+    const roles = Array.isArray(user?.roles) ? user.roles : [];
+
+    const menuItems = roles.flatMap(role => menuConfig[role] || []);
+
     return (
         <StyleSider>
 
-            <Link to="/main">
+            {menuItems.map(item=>(
+                <Link key={item.path} to={item.path}>
                 <CenteredButton>
-                    <HomeOutlined />
-                    Главная
+                    {item.icon}
+                    {item.label}
                 </CenteredButton>
-            </Link>
-            
-            <Link to="/main/search">
-                <CenteredButton>
-                    <SearchOutlined />
-                    Поиск заведений
-                </CenteredButton>
-            </Link>
-
-            <CenteredButton>
-                <HeartOutlined />
-                Избранное
-            </CenteredButton>
-
-            <Link to="/profile">
-                <CenteredButton>
-                    <UserOutlined />
-                    Профиль
-                </CenteredButton>
-            </Link>
-
+                </Link>
+            ))}
+    
         </StyleSider>
     )
 }

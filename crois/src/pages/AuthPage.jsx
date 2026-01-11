@@ -8,6 +8,8 @@ import { Link } from "react-router-dom";
 import { useState } from 'react';
 import { authService } from '../services/api'
 import { useNavigate } from "react-router-dom";
+import { jwtDecode } from "jwt-decode";
+import { useAuth } from "../context/AuthContext";
 
 
 
@@ -16,6 +18,8 @@ function AuthPage(){
     const [form] = Form.useForm();
     const [loading, setLoading] = useState()
     const navigate = useNavigate()
+
+    const { setUser } = useAuth();
 
     const onFinish = async (values) => {
         const payload = {
@@ -27,7 +31,16 @@ function AuthPage(){
 
         try {
             const response = await authService.login(payload);
+
+            //сохранить токен в локалсторадж
             localStorage.setItem('token', response.data.token);
+            
+            //достаем юзера из токена
+            const decodedUser = jwtDecode(localStorage.getItem("token"));
+
+            //закидываем юзера в AuthContext
+            setUser(decodedUser);
+
 
             setLoading(false);
 

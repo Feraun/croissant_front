@@ -23,7 +23,9 @@ function MainPage() {
         <Layout class="page">
             <AppHeader >Header</AppHeader>
             <Layout>
+
                 <AppSider/>
+
                 <Content class="page-content">
                     <List
                         grid={{ gutter: 32, column: 4 }}
