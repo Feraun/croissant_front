@@ -40,6 +40,10 @@ export default function AppHeader(){
 
     const showLogoutButton = !hideLogoututton.includes(location.pathname);
 
+    function LogOut() {
+      localStorage.removeItem("token")
+    }
+
     return (
         <>
             <Header class="headerStyle">
@@ -47,7 +51,7 @@ export default function AppHeader(){
                 <div class="right_nav">
                     {showAuthButton && <Link to="/login"><Button >Log In</Button></Link>}
                     {showRegButton && <Link to="/signup"><Button>Sign Up</Button></Link>}
-                    {showLogoutButton && <Link to="/"><Button>LogOut</Button></Link>}
+                    {showLogoutButton && <Link to="/"><Button onClick={LogOut}>LogOut</Button></Link>}
                 </div>
             </Header>
         </>

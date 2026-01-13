@@ -13,7 +13,7 @@ import { Content } from "antd/es/layout/layout";
 import AppHeader from '../components/AppHeader/AppHeader';
 import AppFooter from '../components/AppFooter/AppFooter';
 import '../App.css';
-import { authService } from '../services/api'; 
+import { apiService } from '../services/api'; 
 import { useState } from 'react';
 
 const validateMessages = {
@@ -47,18 +47,18 @@ function RegPage() {
 
     const onFinish = async (values) => {
         const payload = {
-        email: values.email,
-        username: values.username,
-        password: values.password,
-        firstName: values.firstname,
-        lastName: values.lastname,
-        contactNumber: values.phone,
+            email: values.email,
+            username: values.username,
+            password: values.password,
+            firstName: values.firstname,
+            lastName: values.lastname,
+            contactNumber: values.phone,
         };
 
         setLoading(true);
 
         try {
-            await authService.registration(payload);
+            await apiService.registration(payload);
         // const response = await authService.registration(payload);
         // console.log('Registration successful!');
         // console.log('API response:', response.data);

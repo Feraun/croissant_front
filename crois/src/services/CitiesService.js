@@ -19,12 +19,19 @@ api.interceptors.request.use(
   error => Promise.reject(error)
 );
 
-export const apiService = {
-  registration: (userData) => api.post('/registration', userData),
-  login: (credentials) => api.post('/login', credentials),
+export const citiesService = {
+  getAllCities: (params) => api.get("/admin/cities", {
+      params: {
+        name: params.name,
+        page: params.page,
+        size: params.size,
+        sortBy: params.sortBy,
+        direction: params.direction,
+      },
+    }),
 
-  getAllCities: (name, page, size, sortBy, direction) => api.get("/admin/cities", name, page, size, sortBy, direction),
+  deleteCity: (id) => api.delete(`/admin/cities/${id}`)
 };
 
 
-export default apiService;
+export default citiesService;

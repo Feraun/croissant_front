@@ -6,7 +6,7 @@ import { Content } from "antd/es/layout/layout";
 import { LockOutlined, UserOutlined } from '@ant-design/icons';
 import { Link } from "react-router-dom";
 import { useState } from 'react';
-import { authService } from '../services/api'
+import { apiService } from '../services/api'
 import { useNavigate } from "react-router-dom";
 import { jwtDecode } from "jwt-decode";
 import { useAuth } from "../context/AuthContext";
@@ -30,10 +30,11 @@ function AuthPage(){
         setLoading(true);
 
         try {
-            const response = await authService.login(payload);
+            const response = await apiService.login(payload);
 
             //сохранить токен в локалсторадж
             localStorage.setItem('token', response.data.token);
+
             
             //достаем юзера из токена
             const decodedUser = jwtDecode(localStorage.getItem("token"));

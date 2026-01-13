@@ -38,6 +38,10 @@ export const menuConfig = {
   ROLE_ADMIN: [
     { label: "Админка", path: "/admin" },
     { label: "Пользователи", path: "/admin/users" }
+  ],
+  ROLE_MANAGER: [
+    { label: "Боксы", path: "/boxes" },
+    { label: "Статистика продаж", path: "/statystics" }
   ]
 };
 
