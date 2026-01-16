@@ -1,4 +1,4 @@
-import { Card, Divider, List, Typography, Tooltip, Button } from 'antd';
+import { Card, Divider, List, Typography, Tooltip, Button, Tag } from 'antd';
 import styled from 'styled-components';
 import { HeartOutlined } from '@ant-design/icons';
 import { Rate } from 'antd';
@@ -30,50 +30,48 @@ const StyledRate = styled(Rate)`
   }
 `
 
+const TagsWrapper = styled.div`
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px; /* расстояние между чипсами */
+`;
 
-export default function InfoCard({institution}) {
+export default function InfoCard({ institution, onClick }) { // <-- добавили onClick
     return (
+        <div onClick={onClick} style={{ cursor: "pointer" }}>
+            <Card
+                key={institution.id}
+                hoverable
+                title={institution.name}
+                style={{ width: 300, height: 200 }}
+                extra={
+                    <Tooltip title="В избранное">
+                        <Button
+                            type="text"
+                            icon={<HeartOutlined />}
+                            // onClick для отправки на сервер
+                        />
+                    </Tooltip>
+                }
+            >
+                <TagsWrapper>
+                    {institution.categories && institution.categories.length > 0 ? (
+                        institution.categories.map((cat) => (
+                            <Tag color="blue" key={cat.name}>
+                                {cat.name}
+                            </Tag>
+                        ))
+                    ) : (
+                        <Tag color="gray">Нет категорий</Tag>
+                    )}
+                </TagsWrapper>
 
-        <Card
-            key={institution.id}
-            hoverable
-            title={institution.name}
-            style={{ width: 300, height: 200 }}
-            extra={
-                <Tooltip title="В избранное">
-                    <Button
-                        type="text"
-                        icon={ <HeartOutlined />}
-                        // onClick для отправки на сервер
-                    />
-                </Tooltip>
-            }
-        >
-        <List
-            grid={{
-                gutter: 16,
-                xs: 1,
-                sm: 2,
-                md: 4,
-                lg: 4,
-                xl: 3,
-                xxl: 3,
-            }}
-            dataSource={institution.categories}
-            renderItem={(item) => (
-                <List.Item style={{
-                    margin: 0
-                }}>
-                    {item.name}
-                </List.Item>
-            )}
-        />
-        <Typography.Paragraph>
-            {institution.address}
-            <StyledDivider/>
-            <StyledRate disabled defaultValue={institution.rating} allowHalf/>
-        </Typography.Paragraph>
-        {/* <Meta title="Europe Street beat" description="www.instagram.com" /> */}
-        </Card>
-    )
+                <Typography.Paragraph>
+                    {institution.address}
+                    <StyledDivider />
+                    <StyledRate disabled defaultValue={institution.rating} allowHalf />
+                </Typography.Paragraph>
+            </Card>
+        </div>
+    );
 }

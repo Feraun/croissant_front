@@ -1,64 +1,105 @@
-import "../App.css"
-import AppHeader from "../components/AppHeader/AppHeader";
-import AppFooter from "../components/AppFooter/AppFooter";
-import { Layout, List, Modal} from 'antd';
-import AppSider from "../components/AppSider";
-import InfoCard from "../components/InfoCard";
-import { data } from "../../data";
+// пример адаптации для карточек клиента
+import { List, Modal, Input, Pagination, Spin } from "antd";
+import { useState, useEffect } from "react";
+import institutionService from "../services/institutionService";
+import InfoCard from "../components/InfoCard"
 import InfoCardModal from "../components/InfoCardModal";
-import { useState } from "react";
 
+export default function ClientInstitutionsPage() {
+  const [data, setData] = useState([]);
+  const [loading, setLoading] = useState(false);
+  const [search, setSearch] = useState("");
+  const [page, setPage] = useState(1);
+  const [pageSize] = useState(12);
+  const [total, setTotal] = useState(0);
+  const [selected, setSelected] = useState(null);
 
-const { Content } = Layout;
+  const [modalLoading, setModalLoading] = useState(false);
 
+  const loadData = async (override = {}) => {
+    setLoading(true);
+    const params = {
+      page: override.page ?? page - 1,
+      size: override.pageSize ?? pageSize,
+      name: override.search ?? search,
+    };
+    try {
+      const res = await institutionService.getAllInstitutionByClient(params);
+      setData(res.data.items);
+      setTotal(res.data.totalItems);
+      if (override.page) setPage(override.page + 1);
+    } finally {
+      setLoading(false);
+    }
+  };
 
+  useEffect(() => {
+    loadData();
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [page, pageSize, search]);
 
-function MainPage() {
+  const openModal = async (id) => {
+    setModalLoading(true);
+    try {
+      const res = await institutionService.getInstitutionByIdByClient(id);
+      setSelected(res.data); // сохраняем полный объект заведения
+    } catch (err) {
+      console.error("Ошибка при загрузке заведения:", err);
+    } finally {
+      setModalLoading(false);
+    }
+  };
 
-    const [institution, setInstitution] = useState(null)
-    const [modal, setModal] = useState(false)
+  return (
+    <>
+      <Input.Search
+        placeholder="Поиск"
+        allowClear
+        enterButton
+        style={{ marginBottom: 24, width: 300 }}
+        onSearch={value => {
+          setSearch(value);
+          setPage(1);
+          loadData({ search: value, page: 0 });
+        }}
+      />
 
+      {loading ? (
+        <Spin style={{ marginTop: 100 }} />
+      ) : (
+        <List
+          grid={{ gutter: 24, column: 4 }}
+          dataSource={data}
+          renderItem={item => (
+            <List.Item key={item.id} style={{ display: "flex", justifyContent: "center" }}>
+                <InfoCard 
+                  institution={item}
+                  onClick={() => openModal(item.id)} 
+                />
+            </List.Item>
+          )}
+        />
+      )}
 
-    return (
-        <Layout class="page">
-            <AppHeader >Header</AppHeader>
-            <Layout>
+      <Pagination
+        current={page}
+        pageSize={pageSize}
+        total={total}
+        onChange={setPage}
+        style={{ marginTop: 24, textAlign: "center" }}
+      />
 
-                <AppSider/>
-
-                <Content class="page-content">
-                    <List
-                        grid={{ gutter: 32, column: 4 }}
-                        dataSource={data}
-                        
-                        renderItem={(item) => (
-                        <List.Item
-                            onClick={() => {
-                                setInstitution(item)
-                                setModal(true)
-                            }}
-                        >
-                            <InfoCard
-                                key={item.id}
-                                institution={item}
-                            />
-                        </List.Item>
-                        )}
-                    />
-
-                    <Modal
-                        open={modal}
-                        onCancel={() => setModal(false)}
-                        footer={null}
-                    >
-                        <InfoCardModal institution={institution}/>
-                    </Modal>
-
-                </Content>
-            </Layout>
-            <AppFooter>Footer</AppFooter>
-        </Layout>
-    )
+      <Modal
+        open={!!selected}
+        onCancel={() => setSelected(null)}
+        footer={null}
+      >
+        {modalLoading ? (
+          <Spin tip="Загрузка..." />
+        ) : (
+          <InfoCardModal institution={selected} />
+        )}
+      </Modal>
+    </>
+  );
 }
-
-export default MainPage;

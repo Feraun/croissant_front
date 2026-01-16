@@ -5,7 +5,7 @@ import AppFooter from "../components/AppFooter/AppFooter"
 import { Content } from "antd/es/layout/layout"
 import { AntDesignOutlined } from '@ant-design/icons';
 import styled from "styled-components"
-import { useState } from "react"
+//import { useState } from "react"
 import PaymentDataModal from "../components/PaymentDataModal"
 
 const data =[
@@ -84,16 +84,11 @@ const SaveButtonDiv = styled.div`
 
 function ProfilePage(){
 
-    const [modal, setModal] = useState(false)
 
     const userData = data[0];
 
     return (
-        <Layout class="page">
-            <AppHeader/>
-            <Layout>
-                <AppSider/>
-                <Content className="page-content">
+        <>
                     <div>
                         <Typography.Title level={3}>Добро пожаловать, {userData.firstname}</Typography.Title>
                         <div style={{ display: "flex", alignItems: "center", gap: "16px" }}>
@@ -144,11 +139,11 @@ function ProfilePage(){
                         </StyledLineDiv>
                     </div>
 
-                    <StyledButton
+                    {/* <StyledButton
                         onClick = {() => setModal(true)}
                     >
                         Платёжная информация
-                    </StyledButton>
+                    </StyledButton> */}
 
                     <SaveButtonDiv>
                         <Button >
@@ -157,19 +152,7 @@ function ProfilePage(){
                     </SaveButtonDiv>
                     
 
-                </Content>
-            </Layout>
-            <AppFooter/>
-
-            <Modal
-                open={modal}
-                onCancel={() => setModal(false)}
-                footer={null}
-            >
-                <PaymentDataModal/>
-            </Modal>
-
-        </Layout>
+        </>
 
         
     )

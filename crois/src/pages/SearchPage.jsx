@@ -9,39 +9,29 @@ import { useState } from "react";
 import { data } from "../../data";
 
 
-const { Header, Footer, Sider, Content } = Layout;
-
-
 function SearchPage() {
+  const [searchValue, setSearchValue] = useState("");
 
-    const [searchValue, setSearchValue] = useState("");
+  const dataForSearch = data.filter((i) =>
+    i.name.toLowerCase().includes(searchValue.toLowerCase())
+  );
 
-    const dataForSearch = data.filter((institution) =>
-        institution.name.toLowerCase().includes(searchValue.toLowerCase())
-    );
-
-    return (
-        <Layout class="page">
-            <AppHeader >Header</AppHeader>
-            <Layout>
-                <AppSider/>
-                <Content class="page-content">
-                    <SearchCard onSearch={setSearchValue}/>
-                    <List
-                        style={{ marginTop: 24 }}
-                        grid={{ gutter: 24, column: 4 }}
-                        dataSource={dataForSearch}
-                        renderItem={(item) => (
-                        <List.Item>
-                            <InfoCard institution={item} />
-                        </List.Item>
-                        )}
-                    />
-                </Content>
-            </Layout>
-            <AppFooter>Footer</AppFooter>
-        </Layout>
-    )
+  return (
+    <>
+        <SearchCard onSearch={setSearchValue} />
+        <List
+            style={{ marginTop: 24 }}
+            grid={{ gutter: 24, column: 4 }}
+            dataSource={dataForSearch}
+            renderItem={(item) => (
+            <List.Item>
+                <InfoCard institution={item} />
+            </List.Item>
+            )}
+        />
+    </>
+  );
 }
+
 
 export default SearchPage;

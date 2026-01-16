@@ -28,9 +28,9 @@ const StyleLink = styled(Link)({
 export default function AppHeader(){
     const location = useLocation()
 
-    const hideAuthButtonRoutes = ['/login', '/main', '/profile'];
+    const hideAuthButtonRoutes = ['/login', '/main', '/main/profile', '/main/search', '/main/boxes',];
 
-    const hideRegButtonRoutes = ['/signup', '/main', '/profile'];
+    const hideRegButtonRoutes = ['/signup', '/main', '/main/profile', '/main/search', ];
 
     const hideLogoututton = ['/', '/login', '/signup'];
 
