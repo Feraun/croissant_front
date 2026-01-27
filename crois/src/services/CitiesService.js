@@ -30,7 +30,16 @@ export const citiesService = {
       },
     }),
 
-  deleteCity: (id) => api.delete(`/admin/cities/${id}`)
+  deleteCity: (id) => api.delete(`/admin/cities/${id}`),
+
+  editCity: (id, params) => api.patch(`cities/editCity/${id}`, {
+    params: {
+      name: params.name,
+      region: params.region
+    }
+  }),
+
+  getCityById: (id) => api.get(`cities/${id}`)
 };
 
 

@@ -3,19 +3,21 @@ import TableComponent from "../../components/TableComponent";
 import { Button, Space, Modal } from "antd";
 import { useState } from "react";
 import  CreateBoxModal  from "../../components/CreateBoxModal"
+import { useParams } from "react-router-dom";
+
 
 const columns = [
-  { title: "ID", dataIndex: "id", width: 80, sorter: true },
-  { title: "Название", dataIndex: "name", sorter: true },
+    { title: "ID", dataIndex: "id", width: 80, sorter: true },
+    { title: "Название", dataIndex: "name", sorter: true },
     { title: "Описание", dataIndex: "description"},
     { title: "Цена", dataIndex: "price"},
-    { title: "Статус", dataIndex: "boxStatus"},
-    //{ title: "Покупатель", dataIndes: "owner"},
+    { title: "Количество", dataIndex: "quantity"},
 ];
 
 export default function BoxesPage() {
 
   const [modal, setModal] = useState(false)
+  const { institutionId } = useParams();
   const [tableKey, setTableKey] = useState(0);
 
   const actions = (record) => (
@@ -32,16 +34,25 @@ export default function BoxesPage() {
 
   //const institutionId = 123;
 
-   const refreshTable = () => {
+  const refreshTable = () => {
     setTableKey(prev => prev + 1);
   };
+
+  const handleCloseModal = () => {
+    setModal(false);
+  };
+
+  const handleSuccess = () => {
+    refreshTable();
+  };
+
 
   return (
     <>
       <TableComponent
         key={tableKey}
         columns={columns}
-        fetchData = {(params) => boxService.getAllBoxes(1, params)}
+        fetchData = {(params) => boxService.getAllBoxes(institutionId, params)}
         actions={actions}
         searchPlaceholder="Поиск по названию"
       />
@@ -53,13 +64,14 @@ export default function BoxesPage() {
 
       <Modal
         open={modal}
-        onCancel={() => setModal(false)}
+        onCancel={handleCloseModal}
         footer={null}
         destroyOnClose
       >
         <CreateBoxModal
-          onClose={() => setModal(false)}
-          onSuccess={refreshTable}
+            onClose={handleCloseModal}
+            onSuccess={handleSuccess}
+            institutionId={institutionId}
         />
       </Modal>
     </>

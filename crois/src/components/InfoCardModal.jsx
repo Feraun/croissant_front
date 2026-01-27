@@ -1,5 +1,6 @@
 import { Typography, Divider, Card, Tag, Tooltip, Button } from "antd";
 import styled from "styled-components";
+import institutionService from "../services/institutionService";
 
 const TagsWrapper = styled.div`
   display: flex;
@@ -60,9 +61,13 @@ export default function InfoCardModal({ institution }) {
               <BoxCard key={index} title={box.name}>
                 <Typography.Paragraph>{box.description}</Typography.Paragraph>
                 <Typography.Paragraph>Цена: {box.price} ₽</Typography.Paragraph>
+                <Typography.Paragraph>Остаток: {box.quantity} </Typography.Paragraph>
                 <Button
-                    type="primary"
-                >Купить</Button>
+                  type="primary"
+                  onClick={ () => institutionService.buyBox(parseInt(box.id, 10))}
+                  >
+                  Купить
+                </Button>
               </BoxCard>
             ))}
           </BoxesWrapper>

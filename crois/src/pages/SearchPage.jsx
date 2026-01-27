@@ -3,7 +3,7 @@ import AppHeader from "../components/AppHeader/AppHeader";
 import AppFooter from "../components/AppFooter/AppFooter";
 import { Layout, Input, List} from 'antd';
 import AppSider from "../components/AppSider";
-import InfoCard from "../components/InfoCard";
+import InfoCard from "../components/InfoCards/InfoCardClient";
 import SearchCard from "../components/SearchCard";
 import { useState } from "react";
 import { data } from "../../data";

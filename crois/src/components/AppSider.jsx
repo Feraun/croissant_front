@@ -1,4 +1,4 @@
-import { SearchOutlined, HomeOutlined, HeartOutlined, UserOutlined } from '@ant-design/icons';
+import { SearchOutlined, HomeOutlined, HeartOutlined, UserOutlined, CoffeeOutlined } from '@ant-design/icons';
 import { Button, Layout } from 'antd';
 import styled from "styled-components";
 import { Link } from 'react-router-dom';
@@ -18,8 +18,6 @@ const StyleSider = styled(Sider)`
   align-items: stretch;     /* кнопки одинаковой ширины */
   justify-content: flex-start; /* ВСЕГДА сверху */
 `;
-
-
 
 const CenteredButton = styled(Button)`
   display: flex;
@@ -58,10 +56,10 @@ export const menuConfig = {
 
   manager: [
     {
-      label: "Боксы",
-      path: "/main/boxes",
-      icon: <HeartOutlined />,
-      roles: ["ROLE_MANAGER"],
+      label: "Мои заведения",
+      path: "/main/myInstitutions",
+      icon: <CoffeeOutlined />,
+      roles: ["ROLE_MANAGER"]
     },
     {
       label: "Статистика",
@@ -76,6 +74,12 @@ export const menuConfig = {
       label: "Города",
       path: "/main/cities",
       icon: <HomeOutlined />,
+      roles: ["ROLE_ADMIN"],
+    },
+    {
+      label: "Боксы",
+      path: "/main/boxes",
+      icon: <HeartOutlined />,
       roles: ["ROLE_ADMIN"],
     },
   ],

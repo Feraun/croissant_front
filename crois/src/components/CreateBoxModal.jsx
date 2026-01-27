@@ -1,8 +1,9 @@
 import { Form, Button, Input, Spin, Modal, InputNumber, Result } from "antd";
 import { boxService } from "../services/boxService";
 import { useState } from "react";
+import SuccesfulResult from "./SuccesfulResult";
 
-export default function CreateBoxModal({ onClose, onSuccess }) {
+export default function CreateBoxModal({ onClose, onSuccess, institutionId }) {
     const [form] = Form.useForm();
     const [loading, setLoading] = useState(false);
     const [submitted, setSubmitted] = useState(false);
@@ -13,14 +14,15 @@ export default function CreateBoxModal({ onClose, onSuccess }) {
             description: values.description,
             price: values.price,
             randomly: true,
+            quantity: values.quantity
         };
 
         setLoading(true);
 
         try {
-            await boxService.createBox(1, payload); // тут можно institutionId передавать динамически
+            await boxService.createBox(institutionId, payload); // тут можно institutionId передавать динамически
             setLoading(false);
-            setSubmitted(true); // переключаем на Result
+            setSubmitted(true);
             form.resetFields();
             
             onSuccess()
@@ -39,15 +41,7 @@ export default function CreateBoxModal({ onClose, onSuccess }) {
 
     if (submitted) {
         return (
-            <Result
-                status="success"
-                title="Новый бокс добавлен"
-                extra={[
-                    <Button type="primary" key="close" onClick={onClose}>
-                        Close
-                    </Button>
-                ]}
-            />
+            <SuccesfulResult onClose={onClose} title = "Новый бокс добавлен!" />
         );
     }
 
@@ -68,7 +62,11 @@ export default function CreateBoxModal({ onClose, onSuccess }) {
             </Form.Item>
 
             <Form.Item name="price" label="Цена">
-                <InputNumber style={{ width: '100%' }} />
+                <InputNumber style={{ width: '100%' }} min={1} prefix="RUB"/>
+            </Form.Item>
+
+            <Form.Item name="quantity" label="Кол-во">
+                <InputNumber style={{ width: '100%' }} min={1}/>
             </Form.Item>
 
             <Form.Item>

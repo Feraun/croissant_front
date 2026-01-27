@@ -12,6 +12,7 @@ import BoxesPage from "./pages/ManagerPages/BoxesPage";
 
 import ProtectedRoute from "./components/ProtectedRoute";
 import MainLayout from "./components/MainLayout";
+import MyInstitutionsPage from "./pages/ManagerPages/MyInstitutionsPage";
 
 function App() {
   return (
@@ -43,7 +44,14 @@ function App() {
         <Route path="cities" element={<CitiesPage />} />
 
         {/* /main/boxes */}
-        <Route path="boxes" element={<BoxesPage />} />
+        <Route
+          path="myInstitutions/:institutionId/boxes"
+          element={<BoxesPage />}
+        />
+
+
+        {/* /main/myInstitutions */}
+        <Route path="myInstitutions" element={<MyInstitutionsPage/>} />
       </Route>
     </Routes>
   );

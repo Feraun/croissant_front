@@ -1,5 +1,6 @@
 import { Button, Typography } from "antd";
 import { Header } from "antd/es/layout/layout";
+// eslint-disable-next-line no-unused-vars
 import { Link, useLocation } from "react-router-dom";
 import styled from 'styled-components';
 import './AppHeader.css';
@@ -26,19 +27,28 @@ const StyleLink = styled(Link)({
 });
 
 export default function AppHeader(){
-    const location = useLocation()
+  const pathname = location.pathname;
 
-    const hideAuthButtonRoutes = ['/login', '/main', '/main/profile', '/main/search', '/main/boxes',];
+  const isMyInstitutionBoxes = pathname.startsWith("/main/myInstitutions/") && pathname.endsWith("/boxes");
 
-    const hideRegButtonRoutes = ['/signup', '/main', '/main/profile', '/main/search', ];
+  const hideAuthButtonRoutes = [
+    "/login",
+    "/main",
+    "/main/profile",
+    "/main/search",
+    "/main/boxes",
+    "/main/myInstitutions",
+  ];
 
-    const hideLogoututton = ['/', '/login', '/signup'];
+    const hideAuthButton = hideAuthButtonRoutes.includes(pathname) || isMyInstitutionBoxes;
 
-    const showAuthButton = !hideAuthButtonRoutes.includes(location.pathname);
+    const hideRegButton = hideAuthButtonRoutes.includes(pathname) || isMyInstitutionBoxes;
 
-    const showRegButton = !hideRegButtonRoutes.includes(location.pathname);
+    const hideLogoutButton = ['/', '/login', '/signup'];
 
-    const showLogoutButton = !hideLogoututton.includes(location.pathname);
+    const showAuthButton = !hideAuthButton;
+    const showRegButton = !hideRegButton;
+    const showLogoutButton = !hideLogoutButton.includes(pathname);
 
     function LogOut() {
       localStorage.removeItem("token")

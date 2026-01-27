@@ -19,8 +19,8 @@ api.interceptors.request.use(
   error => Promise.reject(error)
 );
 
-export const institutionService = {
-    getAllInstitutionByClient: (params) => api.get("/client/institutions", {
+export const managerService = {
+    getMyInstitutions: (params) => api.get("/manager/institutions", {
       params: {
         name: params.name,
         page: params.page,
@@ -29,21 +29,7 @@ export const institutionService = {
         direction: params.direction,
       },
     }),
-
-    getAllInstitutionByAdmin: (params) => api.get("/admin/institutions", {
-      params: {
-        name: params.name,
-        page: params.page,
-        size: params.size,
-        sortBy: params.sortBy,
-        direction: params.direction,
-      },
-    }),
-
-    getInstitutionByIdByClient: (id) => api.get(`/client/institutions/${id}`),
-
-    buyBox: (id) => api.patch(`client/boxes/${id}`)
 };
 
 
-export default institutionService;
+export default managerService;
