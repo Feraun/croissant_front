@@ -5,10 +5,11 @@ import HomePage from "./pages/HomePage";
 import RegPage from "./pages/RegPage";
 
 import MainPage from "./pages/MainPage";
-import SearchPage from "./pages/SearchPage";
 import ProfilePage from "./pages/ProfilePage";
-import CitiesPage from "./pages/AdminPages/CitiesPage";
+import CitiesPage from "./pages/AdminPages/Cities/CitiesPage";
 import BoxesPage from "./pages/ManagerPages/BoxesPage";
+import CategoriesPages from "./pages/AdminPages/Categories/CategoriesPage"
+import InstitutionsPage from "./pages/AdminPages/Institutions/InstitutionsPage"
 
 import ProtectedRoute from "./components/ProtectedRoute";
 import MainLayout from "./components/MainLayout";
@@ -17,41 +18,66 @@ import MyInstitutionsPage from "./pages/ManagerPages/MyInstitutionsPage";
 function App() {
   return (
     <Routes>
-      {/* публичные */}
-      <Route path="/" element={<HomePage />} />
-      <Route path="/login" element={<AuthPage />} />
-      <Route path="/signup" element={<RegPage />} />
+      <Route 
+        path="/" 
+        element={<HomePage />} 
+      />
+      <Route 
+        path="/login" 
+        element={<AuthPage />} 
+      />
+      <Route 
+        path="/signup" 
+        element={<RegPage />} 
+      />
 
-      {/* защищённая зона */}
       <Route
         path="/main"
         element={
-          <ProtectedRoute allowedRoles={["ROLE_CLIENT", "ROLE_ADMIN", "ROLE_MANAGER"]}>
+          <ProtectedRoute 
+            allowedRoles={[
+              "ROLE_CLIENT", 
+              "ROLE_ADMIN", 
+              "ROLE_MANAGER"
+            ]}>
             <MainLayout />
           </ProtectedRoute>
         }
       >
-        {/* /main */}
-        <Route index element={<MainPage />} />
+        <Route 
+          index 
+          element={<MainPage />} 
+        />
 
-        {/* /main/search */}
-        <Route path="search" element={<SearchPage />} />
+        <Route 
+          path="profile" 
+          element={<ProfilePage />} 
+        />
 
-        {/* /main/profile */}
-        <Route path="profile" element={<ProfilePage />} />
+        <Route 
+          path="cities" 
+          element={<CitiesPage />} 
+        />
 
-        {/* /main/cities */}
-        <Route path="cities" element={<CitiesPage />} />
+        <Route 
+          path="categories" 
+          element={<CategoriesPages/>}
+        />
 
-        {/* /main/boxes */}
         <Route
           path="myInstitutions/:institutionId/boxes"
           element={<BoxesPage />}
         />
 
+        <Route 
+          path="institutions"
+          element={<InstitutionsPage/>} 
+        />
 
-        {/* /main/myInstitutions */}
-        <Route path="myInstitutions" element={<MyInstitutionsPage/>} />
+        <Route 
+          path="myInstitutions" 
+          element={<MyInstitutionsPage/>} 
+        />
       </Route>
     </Routes>
   );

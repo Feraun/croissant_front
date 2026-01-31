@@ -23,7 +23,7 @@ export const apiService = {
   registration: (userData) => api.post('/registration', userData),
   login: (credentials) => api.post('/login', credentials),
 
-  getAllCities: (name, page, size, sortBy, direction) => api.get("/admin/cities", name, page, size, sortBy, direction),
+
 };
 
 

@@ -1,4 +1,11 @@
-import { SearchOutlined, HomeOutlined, HeartOutlined, UserOutlined, CoffeeOutlined } from '@ant-design/icons';
+import { SearchOutlined, 
+  HomeOutlined, 
+  HeartOutlined, 
+  UserOutlined, 
+  CoffeeOutlined, 
+  MenuOutlined, 
+  EnvironmentOutlined, 
+  ShoppingOutlined} from '@ant-design/icons';
 import { Button, Layout } from 'antd';
 import styled from "styled-components";
 import { Link } from 'react-router-dom';
@@ -41,12 +48,6 @@ export const menuConfig = {
       roles: ["ROLE_CLIENT", "ROLE_ADMIN", "ROLE_MANAGER"],
     },
     {
-      label: "Поиск",
-      path: "/main/search",
-      icon: <SearchOutlined />,
-      roles: ["ROLE_CLIENT"],
-    },
-    {
       label: "Профиль",
       path: "/main/profile",
       icon: <UserOutlined />,
@@ -73,19 +74,29 @@ export const menuConfig = {
     {
       label: "Города",
       path: "/main/cities",
-      icon: <HomeOutlined />,
+      icon: <EnvironmentOutlined />,
+      roles: ["ROLE_ADMIN"],
+    },
+    {
+      label: "Категории",
+      path: "/main/categories",
+      icon: <MenuOutlined />,
+      roles: ["ROLE_ADMIN"],
+    },
+    {
+      label: "Заведения",
+      path: "/main/institutions",
+      icon: <CoffeeOutlined />,
       roles: ["ROLE_ADMIN"],
     },
     {
       label: "Боксы",
       path: "/main/boxes",
-      icon: <HeartOutlined />,
+      icon: <ShoppingOutlined />,
       roles: ["ROLE_ADMIN"],
     },
   ],
 };
-
-
 
 
 export default function AppSider() {

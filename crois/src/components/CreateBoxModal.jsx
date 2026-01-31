@@ -1,4 +1,4 @@
-import { Form, Button, Input, Spin, Modal, InputNumber, Result } from "antd";
+import { Form, Button, Input, Spin, Modal, InputNumber } from "antd";
 import { boxService } from "../services/boxService";
 import { useState } from "react";
 import SuccesfulResult from "./SuccesfulResult";
