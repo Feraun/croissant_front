@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import {Input, Spin, List, Pagination} from "antd";
 import InfoCardManager from "../../components/InfoCards/InfoCardManager";
-import managerService from "../../services/ManagerService";
+import managerInstitutionAndBoxService from "../../services/ManagerInstitutionAndBoxService";
 import { useNavigate } from "react-router-dom";
 
 
@@ -28,7 +28,7 @@ export default function MyInstitutionsPage(){
       name: override.search ?? search,
     };
     try {
-      const res = await managerService.getMyInstitutions(params);
+      const res = await managerInstitutionAndBoxService.getMyInstitutions(params);
       setData(res.data.items);
       setTotal(res.data.totalItems);
       if (override.page) setPage(override.page + 1);

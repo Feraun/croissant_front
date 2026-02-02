@@ -21,6 +21,30 @@ api.interceptors.request.use(
 
 export const clientService = {
     getUserData: () => api.get(`/client/me`),
+
+    getAllInstitutionByClient: (params) => api.get("/client/institutions", {
+      params: {
+        name: params.name,
+        page: params.page,
+        size: params.size,
+        sortBy: params.sortBy,
+        direction: params.direction,
+      },
+    }),
+
+    getAllInstitutionByAdmin: (params) => api.get("/admin/institutions", {
+      params: {
+        name: params.name,
+        page: params.page,
+        size: params.size,
+        sortBy: params.sortBy,
+        direction: params.direction,
+      },
+    }),
+
+    getInstitutionByIdByClient: (id) => api.get(`/client/institutions/${id}`),
+
+    buyBox: (id) => api.patch(`client/boxes/${id}`)
 };
 
 

@@ -1,9 +1,9 @@
 // пример адаптации для карточек клиента
 import { List, Modal, Input, Pagination, Spin } from "antd";
 import { useState, useEffect } from "react";
-import institutionService from "../services/institutionService";
 import InfoCard from "../components/InfoCards/InfoCardClient"
 import InfoCardModal from "../components/InfoCardModal";
+import clientService from "../services/ClientService";
 
 export default function ClientInstitutionsPage() {
   const [data, setData] = useState([]);
@@ -24,7 +24,7 @@ export default function ClientInstitutionsPage() {
       name: override.search ?? search,
     };
     try {
-      const res = await institutionService.getAllInstitutionByClient(params);
+      const res = await clientService.getAllInstitutionByClient(params);
       setData(res.data.items);
       setTotal(res.data.totalItems);
       if (override.page) setPage(override.page + 1);
@@ -41,7 +41,7 @@ export default function ClientInstitutionsPage() {
   const openModal = async (id) => {
     setModalLoading(true);
     try {
-      const res = await institutionService.getInstitutionByIdByClient(id);
+      const res = await clientService.getInstitutionByIdByClient(id);
       setSelected(res.data); // сохраняем полный объект заведения
     } catch (err) {
       console.error("Ошибка при загрузке заведения:", err);

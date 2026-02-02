@@ -19,17 +19,12 @@ api.interceptors.request.use(
   error => Promise.reject(error)
 );
 
-export const managerService = {
-    getMyInstitutions: (params) => api.get("/manager/institutions", {
-      params: {
-        name: params.name,
-        page: params.page,
-        size: params.size,
-        sortBy: params.sortBy,
-        direction: params.direction,
-      },
-    }),
+export const authService = {
+  registration: (userData) => api.post('/registration', userData),
+  login: (credentials) => api.post('/login', credentials),
+
+
 };
 
 
-export default managerService;
+export default authService;

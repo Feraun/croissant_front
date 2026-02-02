@@ -1,4 +1,4 @@
-import { boxService } from "../../services/boxService"
+import managerInstitutionAndBoxService from "../../services/ManagerInstitutionAndBoxService";
 import TableComponent from "../../components/TableComponent";
 import { Button, Space, Modal } from "antd";
 import { useState } from "react";
@@ -52,7 +52,7 @@ export default function BoxesPage() {
       <TableComponent
         key={tableKey}
         columns={columns}
-        fetchData = {(params) => boxService.getAllBoxes(institutionId, params)}
+        fetchData = {(params) => managerInstitutionAndBoxService.searchBoxes(institutionId, params)}
         actions={actions}
         searchPlaceholder="Поиск по названию"
       />

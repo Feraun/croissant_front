@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const API_BASE_URL = 'http://localhost:8080/api/admin';
+const API_BASE_URL = 'http://localhost:8080/api/admin/categoriesOfInstitution';
 const api = axios.create({
   baseURL: API_BASE_URL,
   headers: {
@@ -20,7 +20,7 @@ api.interceptors.request.use(
 );
 
 export const adminCategoriesOfInstitutionService = {
-  searchCategories: (params) => api.get("/categoriesOfInstitution", {
+  searchCategories: (params) => api.get("", {
       params: {
         name: params.name,
         page: params.page,
@@ -30,23 +30,23 @@ export const adminCategoriesOfInstitutionService = {
       },
     }),
 
-  deleteCategory: (id) => api.delete(`/categoriesOfInstitution/${id}`),
+  deleteCategory: (id) => api.delete(`/${id}`),
 
   editCategory: (id, data) =>
-    api.patch(`/categoriesOfInstitution/editCategory/${id}`, {
+    api.patch(`/editCategory/${id}`, {
     name: data.name,
     description: data.description,
   }),
 
 
-  getCategoryById: (id) => api.get(`/categoriesOfInstitution/${id}`),
+  getCategoryById: (id) => api.get(`/${id}`),
 
-  createCategory: (data) => api.post(`/categoriesOfInstitution/createCategory`, {
+  createCategory: (data) => api.post(`/createCategory`, {
     name: data.name,
     description: data.description
   }),
 
-  getAllCategories: () => api.get(`/allCategories`)
+  getAllCategories: () => api.get(`/getAll`)
 };
 
 export default adminCategoriesOfInstitutionService;

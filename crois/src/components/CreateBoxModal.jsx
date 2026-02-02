@@ -1,7 +1,8 @@
 import { Form, Button, Input, Spin, Modal, InputNumber } from "antd";
-import { boxService } from "../services/boxService";
 import { useState } from "react";
 import SuccesfulResult from "./SuccesfulResult";
+
+import managerInstitutionAndBoxService from "../services/ManagerInstitutionAndBoxService";
 
 export default function CreateBoxModal({ onClose, onSuccess, institutionId }) {
     const [form] = Form.useForm();
@@ -20,7 +21,7 @@ export default function CreateBoxModal({ onClose, onSuccess, institutionId }) {
         setLoading(true);
 
         try {
-            await boxService.createBox(institutionId, payload); // тут можно institutionId передавать динамически
+            await managerInstitutionAndBoxService.createBox(institutionId, payload); // тут можно institutionId передавать динамически
             setLoading(false);
             setSubmitted(true);
             form.resetFields();

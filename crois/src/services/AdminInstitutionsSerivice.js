@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const API_BASE_URL = 'http://localhost:8080/api/admin';
+const API_BASE_URL = 'http://localhost:8080/api/admin/institutions';
 const api = axios.create({
   baseURL: API_BASE_URL,
   headers: {
@@ -20,7 +20,7 @@ api.interceptors.request.use(
 );
 
 export const adminInstitutionsService = {
-  searchInstitutions: (params) => api.get("/institutions", {
+  searchInstitutions: (params) => api.get("", {
       params: {
         name: params.name,
         page: params.page,
@@ -30,22 +30,22 @@ export const adminInstitutionsService = {
       },
     }),
 
-  deleteInstitution: (id) => api.delete(`/institutions/${id}`),
+  deleteInstitution: (id) => api.delete(`/${id}`),
 
 
-  getInstitutionById: (id) => api.get(`/institutions/${id}`),
+  getInstitutionById: (id) => api.get(`/${id}`),
 
-    createInstitution: (formData) =>
-      api.post("/institutions/createInstitution", formData, {
-        headers: { "Content-Type": "multipart/form-data" }
-      }),
-
-  editInstitution: (id, formData) =>
-    api.patch(`/institutions/editInstitution/${id}`, formData, {
+  createInstitution: (formData) =>
+    api.post("/createInstitution", formData, {
       headers: { "Content-Type": "multipart/form-data" }
     }),
 
-  getAllInstitutions: () => api.get(`/allInstitutions`)
+  editInstitution: (id, formData) =>
+    api.patch(`/editInstitution${id}`, formData, {
+      headers: { "Content-Type": "multipart/form-data" }
+    }),
+
+  getAllInstitutions: () => api.get(`/getAll`)
 };
 
 export default adminInstitutionsService;

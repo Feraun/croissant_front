@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const API_BASE_URL = 'http://localhost:8080/api/admin';
+const API_BASE_URL = 'http://localhost:8080/api/admin/cities';
 const api = axios.create({
   baseURL: API_BASE_URL,
   headers: {
@@ -20,7 +20,7 @@ api.interceptors.request.use(
 );
 
 export const adminCitiesService = {
-  searchCities: (params) => api.get("/cities", {
+  searchCities: (params) => api.get("", {
       params: {
         name: params.name,
         page: params.page,
@@ -30,23 +30,23 @@ export const adminCitiesService = {
       },
     }),
 
-  deleteCity: (id) => api.delete(`/cities/${id}`),
+  deleteCity: (id) => api.delete(`/${id}`),
 
   editCity: (id, data) =>
-    api.patch(`/cities/editCity/${id}`, {
+    api.patch(`/editCity/${id}`, {
     name: data.name,
     region: data.region,
   }),
 
 
-  getCityById: (id) => api.get(`/cities/${id}`),
+  getCityById: (id) => api.get(`/${id}`),
 
-  createCity: (data) => api.post(`/cities/createCity`, {
+  createCity: (data) => api.post(`/createCity`, {
     name: data.name,
     region: data.region
   }),
 
-  getAllCities: () => api.get(`/allCities`)
+  getAllCities: () => api.get(`/getAll`)
 };
 
 export default adminCitiesService;

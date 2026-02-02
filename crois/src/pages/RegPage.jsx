@@ -13,8 +13,8 @@ import { Content } from "antd/es/layout/layout";
 import AppHeader from '../components/AppHeader/AppHeader';
 import AppFooter from '../components/AppFooter/AppFooter';
 import '../App.css';
-import { apiService } from '../services/api'; 
 import { useState } from 'react';
+import authService from "../services/AuthService";
 
 const validateMessages = {
     required: "${label} is required",
@@ -58,7 +58,7 @@ function RegPage() {
         setLoading(true);
 
         try {
-            await apiService.registration(payload);
+            await authService.registration(payload);
         // const response = await authService.registration(payload);
         // console.log('Registration successful!');
         // console.log('API response:', response.data);
