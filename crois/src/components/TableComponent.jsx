@@ -28,41 +28,39 @@ export default function TableComponent({
   const [sorter, setSorter] = useState({});
   const [search, setSearch] = useState("");
 
-    const loadData = async (override = {}) => {
+  const loadData = async (override = {}) => {
+  setLoading(true);
 
-        setLoading(true);
+  const sortField = override.sorter?.field ?? sorter.field;
+  const sortOrder = override.sorter?.order ?? sorter.order;
 
-        const sortField = override.sorter?.field ?? sorter.field;
-        const sortOrder = override.sorter?.order ?? sorter.order;
+  const params = {
+    page: override.page ?? (pagination.current - 1),
+    size: override.pageSize ?? pagination.pageSize,
+    name: override.search ?? search
+  };
 
-        const params = {
-            page: override.page ?? (pagination.current - 1),
-            size: override.pageSize ?? pagination.pageSize,
-            name: override.search ?? search,
-        };
+  if (sortField && sortOrder) {
+    params.sort = `${sortField},${sortOrder === "descend" ? "desc" : "asc"}`;
+  }
 
-        if (sortField && sortOrder) {
-            params.sortBy = sortField;
-            params.direction = sortOrder === "descend" ? "desc" : "asc";
-        }
+  try {
+    const response = await fetchData(params);
 
-        try {
-            const response = await fetchData(params);
+    setData(response.data.content ?? []);
 
-            setData(response.data.items ?? []);
+    setPagination(p => ({
+      ...p,
+      total: response.data.totalElements ?? 0,
+      current: params.page + 1,
+      pageSize: params.size
+    }));
+  } finally {
+    setLoading(false);
+  }
+};
 
-            setPagination(p => ({
-                ...p,
-                total: response.data.totalItems ?? 0,
-                current: params.page + 1,
-                pageSize: params.size,
-            }));
-        } catch (err) {
-            console.error("Error loading table data:", err);
-        } finally {
-            setLoading(false);
-        }
-    };
+
 
 
   // обработка сортировки и пагинации

@@ -10,12 +10,12 @@ export default function ProtectedRoute({ allowedRoles = [], children }) {
 
 
   //роли пользователя
-  const roles = Array.isArray(user.roles) ? user.roles : [];
+  const role = user.role;
 
   //роли, которым разрешен доступ с children'у
   const allowed = Array.isArray(allowedRoles) ? allowedRoles : [];
 
-  const hasAccess = roles.some(role => allowed.includes(role));
+  const hasAccess = role.some(role => allowed.includes(role));
 
   return hasAccess ? children : <Navigate to="/login" replace />;
 

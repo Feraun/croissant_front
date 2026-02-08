@@ -22,12 +22,10 @@ api.interceptors.request.use(
 export const adminInstitutionsService = {
   searchInstitutions: (params) => api.get("", {
       params: {
-        name: params.name,
-        page: params.page,
-        size: params.size,
-        sortBy: params.sortBy,
-        direction: params.direction,
-      },
+      page: params.page,
+      size: params.size,
+      name: params.name,
+      sort: params.sort}
     }),
 
   deleteInstitution: (id) => api.delete(`/${id}`),
@@ -36,7 +34,16 @@ export const adminInstitutionsService = {
   getInstitutionById: (id) => api.get(`/${id}`),
 
   createInstitution: (formData) =>
+<<<<<<< HEAD
+    api.post("/institutions/createInstitution", formData, {
+      headers: { "Content-Type": "multipart/form-data" }
+    }),
+
+  editInstitution: (id, formData) =>
+    api.patch(`/institutions/editInstitution/${id}`, formData, {
+=======
     api.post("/createInstitution", formData, {
+>>>>>>> b2634b31e0ced31c2b3ec78aa2b52b3048b54a79
       headers: { "Content-Type": "multipart/form-data" }
     }),
 

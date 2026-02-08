@@ -60,13 +60,13 @@ export const menuConfig = {
       label: "Мои заведения",
       path: "/main/myInstitutions",
       icon: <CoffeeOutlined />,
-      roles: ["ROLE_MANAGER"]
+      roles: ["ROLE_MANAGER", "ROLE_ADMIN"]
     },
     {
       label: "Статистика",
       path: "/main/statistics",
       icon: <BarChartOutlined />,
-      roles: ["ROLE_MANAGER"],
+      roles: ["ROLE_MANAGER", "ROLE_ADMIN"],
     },
   ],
 
@@ -103,21 +103,15 @@ export default function AppSider() {
   const { user } = useAuth();
   if (!user) return null;
 
-  const authRoles = user.roles || [];
+  const userRole = user.role[0];
 
-  const canAccess = (item) =>
-    item.roles.some(role => authRoles.includes(role));
 
   const renderSection = (items) =>
     items
-      .filter(canAccess)
+      .filter(item => item.roles.includes(userRole))
       .map(item => (
-        <Link to={item.path} style={{ width: "100%" }}>
-          <CenteredButton
-            key={item.path}
-            to={item.path}
-            block
-          >
+        <Link key={item.path} to={item.path} style={{ width: "100%" }}>
+          <CenteredButton block>
             {item.icon}
             {item.label}
           </CenteredButton>

@@ -21,6 +21,14 @@ api.interceptors.request.use(
 
 export const adminCitiesService = {
   searchCities: (params) => api.get("", {
+<<<<<<< HEAD
+    params: {
+    page: params.page,
+    size: params.size,
+    cityName: params.name,
+    sort: params.sort}
+  }),
+=======
       params: {
         name: params.name,
         page: params.page,
@@ -29,6 +37,7 @@ export const adminCitiesService = {
         direction: params.direction,
       },
     }),
+>>>>>>> b2634b31e0ced31c2b3ec78aa2b52b3048b54a79
 
   deleteCity: (id) => api.delete(`/${id}`),
 

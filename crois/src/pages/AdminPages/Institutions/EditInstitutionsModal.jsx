@@ -30,9 +30,6 @@ export default function EditInstitutionModal({ institution, onSuccess }) {
   const [form] = Form.useForm();
   const isEdit = Boolean(institution?.id);
 
-  // =========================
-  // Lazy load categories
-  // =========================
   const loadCategories = async () => {
     if (categories.length > 0) return;
     setCategoriesLoading(true);
@@ -75,7 +72,7 @@ export default function EditInstitutionModal({ institution, onSuccess }) {
         contactNumber: institution.contactNumber,
         city: institution.city ? { label: institution.city.name, value: institution.city.id } : null,
         categories: institution.categories?.map(c => ({ label: c.name, value: c.id })),
-        managers: institution.managers?.map(u => ({ label: u.username, value: u.id }))
+        manager: institution.manager?.map(u => ({ label: u.username, value: u.id }))
       });
 
       setLogoFile(null); // если редактирование, файл нужно перезагрузить, если пользователь выбирает новый
@@ -85,9 +82,7 @@ export default function EditInstitutionModal({ institution, onSuccess }) {
     }
   }, [institution]);
 
-  // =========================
-  // Submit
-  // =========================
+
   const onFinish = async (values) => {
     setLoading(true);
     try {
@@ -100,7 +95,7 @@ export default function EditInstitutionModal({ institution, onSuccess }) {
       formData.append("cityId", values.city.value);
 
       values.categories.forEach(c => formData.append("categoryIds", c.value));
-      values.managers.forEach(u => formData.append("managersIds", u.value));
+      values.manager.forEach(u => formData.append("managerId", u.value));
 
       if (logoFile) {
         formData.append("file", logoFile);
@@ -187,14 +182,14 @@ export default function EditInstitutionModal({ institution, onSuccess }) {
         />
       </Form.Item>
 
-      <Form.Item name="managers" label="Менеджеры">
+      <Form.Item name="manager" label="Менеджер">
         <Select
           mode="multiple"
           labelInValue
           showSearch={false}
           options={users}
           loading={usersLoading}
-          placeholder="Выберите менеджеров"
+          placeholder="Выберите менеджера"
           onOpenChange={open => open && loadUsers()}
         />
       </Form.Item>

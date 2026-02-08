@@ -51,7 +51,7 @@ export default function CityTable() {
         <Button
           type="primary"
           onClick={() => {
-            setSelectedCity(null); // режим создания
+            setSelectedCity(null);
             setModalOpen(true);
           }}
         >

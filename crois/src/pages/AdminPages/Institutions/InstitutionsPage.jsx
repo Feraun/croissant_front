@@ -7,7 +7,11 @@ import EditInstitutionModal from "./EditInstitutionsModal";
 const columns = [
   { title: "ID", dataIndex: "id", width: 80, sorter: true },
   { title: "Название", dataIndex: "name", sorter: true },
-  { title: "Описание", dataIndex: "description", sorter: true},
+  { title: "Город", dataIndex: "cityName", sorter: true },
+  { title: "Адрес", dataIndex: "address" },
+  { title: "Рейтинг", dataIndex: "rating", sorter: true},
+  { title: "Контактный номер", dataIndex: "contactNumber" },
+  { title: "Создано", dataIndex: "createdAt", sorter: true}
 ];
 
 export default function InstitutionsTable() {
