@@ -32,7 +32,7 @@ export const managerInstitutionAndBoxService = {
       },
     }),
 
-  getMyInstitutions: (params) => api.get("/manager/institutions", {
+  getMyInstitutions: (params) => api.get("", {
     params: {
       name: params.name,
       page: params.page,

@@ -24,15 +24,9 @@ export default function MyInstitutionsPage(){
       name: override.search ?? search,
     };
     try {
-<<<<<<< HEAD
-      const res = await managerService.getMyInstitutions(params);
+      const res = await managerInstitutionAndBoxService.getMyInstitutions(params);
       setData(res.data.content);
       setTotal(res.data.totalElements);
-=======
-      const res = await managerInstitutionAndBoxService.getMyInstitutions(params);
-      setData(res.data.items);
-      setTotal(res.data.totalItems);
->>>>>>> b2634b31e0ced31c2b3ec78aa2b52b3048b54a79
       if (override.page) setPage(override.page + 1);
     } finally {
       setLoading(false);

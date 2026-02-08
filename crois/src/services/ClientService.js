@@ -1,3 +1,4 @@
+import Search from 'antd/es/transfer/search';
 import axios from 'axios';
 
 const API_BASE_URL = 'http://localhost:8080/api';
@@ -20,7 +21,21 @@ api.interceptors.request.use(
 );
 
 export const clientService = {
-    getUserData: () => api.get(`/client/me`),
+    getUserData: () => api.get(`/client/profile`),
+
+    getAllInstitutionByClient: (params) => api.get(`/client/institutions`,
+      {
+        params: {
+        page: params.page,
+        size: params.size,
+        cityName: params.name,
+        sort: params.sort}
+      }
+    ),
+
+    getInstitutionByIdByClient: (id) => api.get(`/client/institutions/${id}`),
+
+    buyBox: (id) => api.patch(`/client/boxes/${id}`)
 };
 
 

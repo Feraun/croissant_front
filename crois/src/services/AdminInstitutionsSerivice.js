@@ -34,21 +34,12 @@ export const adminInstitutionsService = {
   getInstitutionById: (id) => api.get(`/${id}`),
 
   createInstitution: (formData) =>
-<<<<<<< HEAD
-    api.post("/institutions/createInstitution", formData, {
-      headers: { "Content-Type": "multipart/form-data" }
-    }),
-
-  editInstitution: (id, formData) =>
-    api.patch(`/institutions/editInstitution/${id}`, formData, {
-=======
     api.post("/createInstitution", formData, {
->>>>>>> b2634b31e0ced31c2b3ec78aa2b52b3048b54a79
       headers: { "Content-Type": "multipart/form-data" }
     }),
 
   editInstitution: (id, formData) =>
-    api.patch(`/editInstitution${id}`, formData, {
+    api.patch(`/editInstitution/${id}`, formData, {
       headers: { "Content-Type": "multipart/form-data" }
     }),
 

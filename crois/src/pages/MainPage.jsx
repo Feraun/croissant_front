@@ -1,39 +1,41 @@
-// пример адаптации для карточек клиента
+// ClientInstitutionsPage.jsx
 import { List, Modal, Input, Pagination, Spin } from "antd";
 import { useState, useEffect } from "react";
-import InfoCard from "../components/InfoCards/InfoCardClient"
+import InfoCard from "../components/InfoCards/InfoCardClient";
 import InfoCardModal from "../components/InfoCardModal";
 import clientService from "../services/ClientService";
 
 export default function ClientInstitutionsPage() {
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(false);
+
   const [search, setSearch] = useState("");
+
   const [page, setPage] = useState(1);
   const [pageSize] = useState(12);
   const [total, setTotal] = useState(0);
-  const [selected, setSelected] = useState(null);
 
+  const [modalOpen, setModalOpen] = useState(false);
   const [modalLoading, setModalLoading] = useState(false);
+  const [selected, setSelected] = useState(null);
 
   const loadData = async (override = {}) => {
     setLoading(true);
+
     const params = {
       page: override.page ?? page - 1,
       size: override.pageSize ?? pageSize,
       name: override.search ?? search,
     };
+
     try {
-<<<<<<< HEAD
-      const res = await institutionService.getAllInstitutionByClient(params);
+      const res = await clientService.getAllInstitutionByClient(params);
       setData(res.data.content);
       setTotal(res.data.totalElements);
-=======
-      const res = await clientService.getAllInstitutionByClient(params);
-      setData(res.data.items);
-      setTotal(res.data.totalItems);
->>>>>>> b2634b31e0ced31c2b3ec78aa2b52b3048b54a79
-      if (override.page) setPage(override.page + 1);
+
+      if (override.page !== undefined) {
+        setPage(override.page + 1);
+      }
     } finally {
       setLoading(false);
     }
@@ -41,14 +43,17 @@ export default function ClientInstitutionsPage() {
 
   useEffect(() => {
     loadData();
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [page, pageSize, search]);
 
   const openModal = async (id) => {
+    setModalOpen(true);
     setModalLoading(true);
+    setSelected(null);
+
     try {
       const res = await clientService.getInstitutionByIdByClient(id);
-      setSelected(res.data); // сохраняем полный объект заведения
+      setSelected(res.data);
     } catch (err) {
       console.error("Ошибка при загрузке заведения:", err);
     } finally {
@@ -63,7 +68,7 @@ export default function ClientInstitutionsPage() {
         allowClear
         enterButton
         style={{ marginBottom: 24, width: 300 }}
-        onSearch={value => {
+        onSearch={(value) => {
           setSearch(value);
           setPage(1);
           loadData({ search: value, page: 0 });
@@ -76,12 +81,15 @@ export default function ClientInstitutionsPage() {
         <List
           grid={{ gutter: 24, column: 4 }}
           dataSource={data}
-          renderItem={item => (
-            <List.Item key={item.id} style={{ display: "flex", justifyContent: "center" }}>
-                <InfoCard 
-                  institution={item}
-                  onClick={() => openModal(item.id)} 
-                />
+          renderItem={(item) => (
+            <List.Item
+              key={item.id}
+              style={{ display: "flex", justifyContent: "center" }}
+            >
+              <InfoCard
+                institution={item}
+                onClick={() => openModal(item.id)}
+              />
             </List.Item>
           )}
         />
@@ -91,16 +99,20 @@ export default function ClientInstitutionsPage() {
         current={page}
         pageSize={pageSize}
         total={total}
-        onChange={setPage}
+        onChange={(p) => setPage(p)}
         style={{ marginTop: 24, textAlign: "center" }}
       />
 
       <Modal
-        open={!!selected}
-        onCancel={() => setSelected(null)}
+        open={modalOpen}
+        onCancel={() => {
+          setModalOpen(false);
+          setSelected(null);
+        }}
         footer={null}
+        destroyOnClose
       >
-        {modalLoading ? (
+        {modalLoading || !selected ? (
           <Spin tip="Загрузка..." />
         ) : (
           <InfoCardModal institution={selected} />
